@@ -14,7 +14,33 @@ app.get('/', (req, res) => {
   });
   
 
-//post to save product in our database
+//get all products => Product.find({})
+app.get("/api/products", async (req, res) => {
+    try {
+        const prodacts = await Product.find({})
+        res.status(200).json(prodacts)
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+})
+
+
+//get one products 
+app.get("/api/products/:id", async (req, res) => {
+    try {
+        const { id } = req.params
+        const product = await Product.findById(id)
+        res.status(200).json(product)
+
+    } catch(error) {
+        res.status(500).json({message: error.message})
+    }
+})
+
+
+
+
+//post to save product in our database => Product.create(req.body)
 app.post('/api/products', async (req, res) => {
     try{
        const product =  await Product.create(req.body);
